@@ -1,26 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+const SecondsCounter = (props) => {
+	const[seconds, setSeconds] = useState(0);
 
-//create your first component
-const Home = () => {
-	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+	useEffect(() => {
+		const interval = setInterval(() => {
+		  setSeconds((seconds) => seconds + 1);
+		}, 1000);
+		return () => clearInterval(interval);
+	  }, []);
+
+	  const digitArray = String(seconds).padStart(6, '0').split('').reverse().slice(0, 6);
+
+	  return (
+		<div className="app counter">
+			<div className="box clock">
+			<FontAwesomeIcon icon={['far', 'clock']} />
+			</div>
+			{digitArray.map((digit, index) => (
+				<div key={index} className="box">
+					{digit}
+				</div>
+			))}
 		</div>
 	);
 };
 
-export default Home;
+export default SecondsCounter;
